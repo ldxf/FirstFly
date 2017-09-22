@@ -1,3 +1,6 @@
+/**
+ *键盘监听
+ */
 var keyCode = {
     keyUp: 38,
     keyDown: 40,
