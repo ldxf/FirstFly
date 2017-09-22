@@ -66,7 +66,6 @@ function KeyControl(director) {
                 break;
             case keyCode.keyEnter:
                 keyStatus.keyEnterStatus = true;
-                director.onPrepare(stringControl);
                 stringControl="";
                 break;
             case keyCode.keySpace:
