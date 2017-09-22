@@ -2,6 +2,7 @@ function Director() {
     this.ctx = null;//canvas的上下文
     this.back = null;//背景
     this.player = null;//玩家
+    this.prop = null;//道具
     this.enimes = [];//敌人集合
     this.bullets = [];//子弹集合
 
@@ -139,6 +140,7 @@ Director.prototype.choosePlayer = function () {
         temp.back.draw();
         //3.画选择
         temp.drawChoose(choose);
+       temp.prop.draw();
     }, 1000 / 60);
 
     $(document).keydown(function (e) {
