@@ -5,6 +5,8 @@ $(function () {
     director.player = new Player(director);
     // director.player.setMultiplayer();
     director.grade = new Grade(director);
+    director.width=director.ctx.canvas.width;
+    director.height=director.ctx.canvas.height;
 
     // setInterval(function () {
     //     var emy = new Enemy(director.ctx, director.enimes);

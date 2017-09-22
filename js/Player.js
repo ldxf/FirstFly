@@ -19,6 +19,9 @@ function Player(director) {
     this.palyer2Y = 0;
     this.exploded2 = false;
     this.img2 = new Image();
+
+
+    this.bulleType = 0;
 }
 
 Player.prototype.draw = function () {
@@ -26,10 +29,11 @@ Player.prototype.draw = function () {
     if (!this.exploded) {
         this.ctx.drawImage(this.img, this.x, this.y);
         if (keyStatus.keyLeftStatus) {
-            this.x > -this.width / 2 ? this.x -= 5 : this.x;
+            this.x > 0 ? this.x -= 5 : this.x;
         }
         if (keyStatus.keyRightStatus) {
-            this.x < this.director.width + this.width / 2 ? this.x += 5 : this.x;
+            this.x < this.director.width - this.width ? this.x += 5 : this.x;
+            console.log(this.x);
         }
         if (keyStatus.keyUpStatus) {
             this.y > 0 ? this.y -= 5 : this.y;
@@ -37,10 +41,18 @@ Player.prototype.draw = function () {
         if (keyStatus.keyDownStatus) {
             this.y < this.director.height - this.height / 2 ? this.y += 5 : this.y;
         }
-        if (keyStatus.keySpaceStatus) {
-            this.fire(this.x + 8, this.y);
-            keyStatus.keySpaceStatus = false;
+        if (this.multiplayered) {
+            if (keyStatus.key0Status) {
+                this.fire(this.x + 8, this.y);
+                keyStatus.key0Status = false;
+            }
+        } else {
+            if (keyStatus.keySpaceStatus) {
+                this.fire(this.x + 8, this.y);
+                keyStatus.keySpaceStatus = false;
+            }
         }
+
     } else {
         if (this.explodeIndex < 10) {
             this.ctx.drawImage(this.explodedImg,
@@ -54,10 +66,10 @@ Player.prototype.draw = function () {
         if (!this.exploded2) {
             this.ctx.drawImage(this.img2, this.palyer2X, this.palyer2Y);
             if (keyStatus.keyAStatus) {
-                this.palyer2X > -this.width / 2 ? this.palyer2X -= 5 : this.palyer2X
+                this.palyer2X > -this.width ? this.palyer2X -= 5 : this.palyer2X
             }
             if (keyStatus.keyDStatus) {
-                this.palyer2X < this.director.width + this.width / 2 ? this.palyer2X += 5 : this.palyer2X;
+                this.palyer2X < this.director.width - this.width ? this.palyer2X += 5 : this.palyer2X;
             }
             if (keyStatus.keyWStatus) {
                 this.palyer2Y > 0 ? this.palyer2Y -= 5 : this.palyer2Y;
@@ -65,9 +77,11 @@ Player.prototype.draw = function () {
             if (keyStatus.keySStatus) {
                 this.palyer2Y < this.director.height - this.height / 2 ? this.palyer2Y += 5 : this.palyer2Y;
             }
-            if (keyStatus.key0Status) {
+            if (keyStatus.keySpaceStatus) {
                 this.fire(this.palyer2X + 8, this.palyer2Y);
-                keyStatus.key0Status = false;
+                this.fire(this.palyer2X, this.palyer2Y + 14);
+                this.fire(this.palyer2X + 16, this.palyer2Y + 14);
+                keyStatus.keySpaceStatus = false;
             }
         } else {
             if (this.explodeIndex2 < 10) {
@@ -77,7 +91,6 @@ Player.prototype.draw = function () {
                     44, 49);
                 this.explodeIndex2++;
             }
-
         }
     }
 
@@ -104,9 +117,9 @@ Player.prototype.setMultiplayer = function () {
     this.multiplayered = true;
     this.img2.src = "img/Player2.png";
     this.palyer2X = this.director.width / 3;
-    this.palyer2Y = this.director.height*3/4;
+    this.palyer2Y = this.director.height * 3 / 4;
     this.x = this.director.width * 2 / 3;
-    this.y=this.director.height*3/4;
+    this.y = this.director.height * 3 / 4;
     this.explodeIndex = 0;
     this.explodeIndex2 = 0;
     this.exploded = false;
@@ -116,7 +129,7 @@ Player.prototype.setMultiplayer = function () {
 Player.prototype.setSingleplayer = function () {
     this.multiplayered = false;
     this.x = this.director.width / 2;
-    this.y=this.director.height*3/4;
+    this.y = this.director.height * 3 / 4;
     this.explodeIndex = 0;
     this.exploded = false;
     // this.bullets=[];

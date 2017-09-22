@@ -9,8 +9,8 @@ function Director() {
     this.animenimesID = null;//刷帧ID
 
     this.grade = null;
-    this.width = 600;
-    this.height = 450;
+    this.width = 0;
+    this.height = 0;
 }
 
 //游戏
@@ -22,7 +22,7 @@ Director.prototype.play = function () {
     // //2.画背景
     // this.back.draw();
 
-    // this.animID=setInterval(temp.gameLoop(),1000/60);
+    // this.animID = setInterval(temp.gameLoop(), 1000 / 60);
     this.animenimesID = setInterval(function () {
         //5.添加敌人
         temp.enimes.push(new Enemy(temp.ctx, temp.enimes));
