@@ -6,6 +6,7 @@ function Director() {
     this.bullets = [];//子弹集合
 
     this.animID = null;//刷帧ID
+    this.animenimesID = null;//刷帧ID
 
     this.grade = null;
     this.width = 600;
@@ -22,6 +23,10 @@ Director.prototype.play = function () {
     // this.back.draw();
 
     // this.animID=setInterval(temp.gameLoop(),1000/60);
+    this.animenimesID = setInterval(function () {
+        //5.添加敌人
+        temp.enimes.push(new Enemy(temp.ctx, temp.enimes));
+    }, 1500);
     this.animID = setInterval(function () {
         temp.gameLoop();
     }, 1000 / 60);
@@ -36,8 +41,6 @@ Director.prototype.gameLoop = function () {
     this.player.draw();
     //4.画分数
     this.grade.draw();
-    //5.添加敌人
-    this.enimes.push(new Enemy(this.ctx, this.enimes));
 
     //4.画敌人
     for (var i = 0; i < this.enimes.length; i++) {
@@ -82,19 +85,21 @@ Director.prototype.gameLoop = function () {
 
 Director.prototype.onPase = function () {
     clearInterval(this.animID);
-    this.animID=null;
+    clearInterval(this.animenimesID);
+    this.animenimesID = null;
+    this.animID = null;
 }
 
 Director.prototype.onPrepare = function (string) {
     // console.log(this.animID);
-    if (this.animID !== null && this.animID>0) {
+    if (this.animID !== null && this.animID > 0) {
         return;
     }
     // console.log("play");
     //twostart回车键
     if (string === "848779838465828413") {
         this.player.setMultiplayer();
-    }else {
+    } else {
         this.player.setSingleplayer();
     }
     this.enimes.removeAll();
