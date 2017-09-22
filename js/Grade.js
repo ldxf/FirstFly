@@ -1,3 +1,6 @@
+/**
+ *分数
+ */
 function Grade(director) {
     this.ctx = director.ctx;
     this.img = new Image();
@@ -16,7 +19,7 @@ function Grade(director) {
 Grade.prototype.draw = function () {
     // this.ctx.drawImage(this.img, this.x, this.y);
     this.ctx.fillStyle = "white";
-    this.ctx.font = "16px";
+    this.ctx.font = "26px";
     this.ctx.textAlign = "center";
     this.ctx.fillText("分数:" + this.IndexGrade, this.director.width - 60., 30, 60);
 

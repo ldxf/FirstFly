@@ -1,3 +1,6 @@
+/**
+ *敌机
+ */
 function Enemy(ctx, emys) {
     this.ctx = ctx;
     this.img = new Image();

@@ -1,3 +1,6 @@
+/**
+ *
+ */
 $(function () {
     var director = new Director();
     director.ctx = $("#game_canvas")[0].getContext("2d");

@@ -1,3 +1,6 @@
+/**
+ *子弹
+ */
 function Bullet(ctx, x, y, bullets) {
     this.ctx = ctx;
     this.img = new Image();

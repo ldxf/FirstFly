@@ -1,3 +1,6 @@
+/**
+ *玩家
+ */
 function Player(director) {
     this.ctx = director.ctx;
     this.img = new Image();

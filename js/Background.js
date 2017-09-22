@@ -1,3 +1,6 @@
+/**
+ *背景
+ */
 function Background(ctx)
 {
 	this.ctx=ctx;

@@ -1,3 +1,6 @@
+/**
+ *
+ */
 function Director() {
     this.ctx = null;//canvas的上下文
     this.back = null;//背景
@@ -109,3 +112,6 @@ Director.prototype.onPrepare = function (string) {
 
 
 }
+
+
+
