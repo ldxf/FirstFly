@@ -1,6 +1,3 @@
-/**
- *玩家
- */
 function Player(director) {
     this.ctx = director.ctx;
     this.img = new Image();
@@ -116,7 +113,7 @@ Player.prototype.animStep = function () {
     return (this.exploded && this.explodeIndex > 7) && (this.multiplayered ? (this.exploded2 && this.explodeIndex2 > 7) : true);
 }
 
-Player.prototype.setMultiplayer = function () {
+Player.prototype.setMultiPlayer = function () {
     this.multiplayered = true;
     this.img2.src = "img/Player2.png";
     this.palyer2X = this.director.width / 3;
@@ -129,10 +126,10 @@ Player.prototype.setMultiplayer = function () {
     this.exploded2 = false;
     // this.bullets=[];
 }
-Player.prototype.setSingleplayer = function () {
+Player.prototype.setSinglePlayer = function () {
     this.multiplayered = false;
-    this.x = this.director.width / 2;
-    this.y = this.director.height * 3 / 4;
+    this.x = this.director.width / 2 - this.width/2;
+    this.y=this.director.height*3/4;
     this.explodeIndex = 0;
     this.exploded = false;
     // this.bullets=[];
