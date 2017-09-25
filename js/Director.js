@@ -1,18 +1,16 @@
 function Director() {
     this.ctx = null;//canvas的上下文
-    this.back = null;//背景
-    this.player = null;//玩家
-    this.prop = null;//道具
-    this.enimes = [];//敌人集合
-    this.bullets = [];//子弹集合
-
-    this.animID = null;//刷帧ID
-    this.animenimesID = null;//刷帧ID
-
-    this.grade = null;
     this.width = 0;
     this.height = 0;
-    this.status = 0// 0 - choose 1 - play
+    this.back = null;//背景
+    this.players = [];//玩家
+    this.enimes = [];//敌人集合
+    this.bullets = [];//子弹集合
+    this.grade = null;//分数
+    this.animID = null;//刷帧ID
+    this.animenimesID = null;//刷帧ID
+    this.status = 0;//游戏阶段（0-选择玩家 1-开始游戏）
+    this.multiPlayer = false;
 }
 
 /**
@@ -20,16 +18,12 @@ function Director() {
  */
 Director.prototype.play = function () {
     var temp = this;
-    // //1.清屏
-    // this.ctx.clearRect(0, 0, this.width,  this.height);
-    // //2.画背景
-    // this.back.draw();
 
     // this.animID = setInterval(temp.gameLoop(), 1000 / 60);
-    this.animenimesID = setInterval(function () {
-        //5.添加敌人
-        temp.enimes.push(new Enemy(temp.ctx, temp.enimes));
-    }, 1500);
+    // this.animenimesID = setInterval(function () {
+    //     //5.添加敌人
+    //     temp.enimes.push(new Enemy(temp.ctx, temp.enimes));
+    // }, 1500);
     this.animID = setInterval(function () {
         temp.gameLoop();
     }, 1000 / 60);
@@ -46,7 +40,12 @@ Director.prototype.gameLoop = function () {
     //2.画背景
     this.back.draw();
     //3.画玩家
-    this.player.draw();
+    if (!this.multiPlayer) {
+        this.players[0].draw();
+    } else {
+        this.players[0].draw();
+        this.players[1].draw();
+    }
     // //4.画分数
     // this.grade.draw();
     //5.添加敌人
@@ -76,21 +75,21 @@ Director.prototype.gameLoop = function () {
 
     //7.飞机撞击动画
     // for (var i = 0; i < this.enimes.length; i++) {
-    //     if (IsCollided(this.enimes[i], this.player)) {
+    //     if (IsCollided(this.enimes[i], this.players)) {
     //         console.log("飞机撞击动画");
-    //         this.player.exploded = true;
+    //         this.players.exploded = true;
     //     }
-    //     if (this.player.multiplayered) {
-    //         if (IsCollided2(this.enimes[i], this.player)) {
+    //     if (this.players.multiPlayer) {
+    //         if (IsCollided2(this.enimes[i], this.players)) {
     //             console.log("飞机撞击动画");
-    //             this.player.exploded2 = true;
+    //             this.players.exploded2 = true;
     //         }
     //     }
     // }
 
-    if (this.player.animStep()) {
-        this.onPause();
-    }
+    // if (this.players.animStep()) {
+    //     this.onPause();
+    // }
 }
 
 /**
@@ -98,8 +97,8 @@ Director.prototype.gameLoop = function () {
  */
 Director.prototype.onPause = function () {
     clearInterval(this.animID);
-    clearInterval(this.animenimesID);
-    this.animenimesID = null;
+    // clearInterval(this.animenimesID);
+    // this.animenimesID = null;
     this.animID = null;
 }
 
@@ -108,20 +107,20 @@ Director.prototype.onPause = function () {
  * @param choose
  */
 Director.prototype.drawChoose = function (choose) {
-    if(choose === 1){
+    if (choose === 1) {
         this.ctx.fillStyle = "white";
         this.ctx.font = "20px Arial";
-        this.ctx.fillText("1 player",this.width/2,this.height/2,1000);
+        this.ctx.fillText("1 players", this.width / 2, this.height / 2, 1000);
         this.ctx.fillStyle = "DarkGray";
         this.ctx.font = "16px Arial";
-        this.ctx.fillText("2 player",this.width/2,this.height/2+40,1000);
-    }else if(choose === 2){
+        this.ctx.fillText("2 players", this.width / 2, this.height / 2 + 40, 1000);
+    } else if (choose === 2) {
         this.ctx.fillStyle = "DarkGray";
         this.ctx.font = "16px Arial";
-        this.ctx.fillText("1 player",this.width/2,this.height/2,1000);
+        this.ctx.fillText("1 players", this.width / 2, this.height / 2, 1000);
         this.ctx.fillStyle = "white";
         this.ctx.font = "20px Arial";
-        this.ctx.fillText("2 player",this.width/2,this.height/2+40,1000);
+        this.ctx.fillText("2 players", this.width / 2, this.height / 2 + 40, 1000);
     }
 }
 
@@ -140,14 +139,14 @@ Director.prototype.choosePlayer = function () {
         temp.back.draw();
         //3.画选择
         temp.drawChoose(choose);
-       temp.prop.draw();
+       // temp.prop.draw();
     }, 1000 / 60);
 
     $(document).keydown(function (e) {
-        if(temp.status !==0){
+        if (temp.status !== 0) {
             return;
         }
-        switch (e.which){
+        switch (e.which) {
             case keyCode.keyUp:
                 choose = 1;
                 break;
@@ -157,10 +156,18 @@ Director.prototype.choosePlayer = function () {
                 break;
 
             case keyCode.keyEnter:
-                if(choose === 1){
-                    temp.player.setSinglePlayer();
-                }else if(choose === 2){
-                    temp.player.setMultiPlayer();
+                if (choose === 1) {
+                    var player = new Player(temp);
+                    player.initPlayer("img/Player.png", temp.width / 2 - player.width / 2, temp.height * 3 / 4);
+                    temp.players.push(player);
+                } else if (choose === 2) {
+                    var player1 = new Player(temp);
+                    player1.initPlayer("img/Player.png", temp.width / 3, temp.height * 3 / 4);
+                    temp.players.push(player1);
+                    var player2 = new Player(temp);
+                    player2.initPlayer("img/Player2.png", temp.width * 2/3 , temp.height * 3 / 4);
+                    temp.players.push(player2);
+                    temp.multiPlayer = true;
                 }
                 temp.enimes.removeAll();
                 temp.bullets.removeAll();
