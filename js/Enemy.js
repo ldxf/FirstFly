@@ -3,11 +3,11 @@
  */
 function Enemy(director) {
     this.director=director;
-    this.ctx = this.director.ctx;
+    this.ctx = director.ctx;
     this.img = new Image();
     this.imgs = ["img/enemy_small.png", "img/enemy_small_2.png", "img/enemy_small_2_special.png",
         "img/enemy_small_3.png", "img/enemy_small_4.png"];
-    this.img.src = "img/Rock.png";
+    // this.img.src = "img/Rock.png";
     this.x = parseInt((Math.random() * this.director.width).toFixed(0));
     this.y = parseInt((-Math.random() * this.director.height).toFixed(0));
     this.width = 32;
