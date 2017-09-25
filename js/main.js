@@ -2,8 +2,7 @@ $(function () {
     var director = new Director();
     director.ctx = $("#game_canvas")[0].getContext("2d");
     director.back = new Background(director);
-    director.player = new Player(director);
-    // director.player.setMultiplayer();
+    // director.players = new Player(director);
     director.grade = new Grade(director);
     director.prop = new Prop(director);
     director.width = director.ctx.canvas.width;
