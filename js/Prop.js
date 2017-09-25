@@ -19,7 +19,8 @@ function Prop(director) {
     this.explodedImg.src = "img/explosionEnemy.png";
     this.explodeIndex = 0;
 
-    this.props=director.props;
+    this.props = director.props;
+    this.time = 0;
     // this.airplaneType = parseInt(Math.random() * 10 % this.imgs.length);
     // this.img.src = this.imgs[this.airplaneType];
 }
@@ -27,16 +28,19 @@ function Prop(director) {
 
 Prop.prototype.draw = function () {
     if (!this.exploded) {
-        this.ctx.drawImage(this.img, this.x, this.y)
-        this.x += this.vx;
-        this.y += this.vy;
-        if (this.y + this.vy > this.director.height - this.height ||
-            this.y + this.vy < 0) {
-            this.vy = -this.vy;
-        }
-        if (this.x + this.vx > this.director.width - this.width ||
-            this.x + this.vx < 0) {
-            this.vx = -this.vx;
+        this.ctx.drawImage(this.img, this.x, this.y);
+        this.time > 60 ? this.time = 0 : this.time++;
+        if (this.time % 2 === 0) {
+            this.x += this.vx;
+            this.y += this.vy;
+            if (this.y + this.vy > this.director.height - this.height ||
+                this.y + this.vy < 0) {
+                this.vy = -this.vy;
+            }
+            if (this.x + this.vx > this.director.width - this.width ||
+                this.x + this.vx < 0) {
+                this.vx = -this.vx;
+            }
         }
     } else {
         // this.ctx.drawImage(this.explodedImg,
@@ -44,7 +48,7 @@ Prop.prototype.draw = function () {
         //     this.x, this.y,
         //     44, 49);
         // this.explodeIndex++;
-        this.props.remove(this);
+        this.props.removeAll();
     }
 }
 

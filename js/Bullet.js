@@ -15,12 +15,14 @@ function Bullet(ctx, x, y, bullets) {
 }
 
 Bullet.prototype.draw = function () {
-    console.log("子弹数:" + this.bullets.length);
-        this.ctx.drawImage(this.img, this.x, this.y);
-        this.y -= this.speed;
-        if (this.y < -10 || this.exploded) {
-            this.bullets.remove(this);
-        }
+    // console.log("子弹数:" + this.bullets.length);
+    // this.ctx.rotate(45 * Math.PI);
+    this.ctx.drawImage(this.img, this.x, this.y);
+    // this.ctx.rotate(-45 * Math.PI);
+    this.y -= this.speed;
+    if (this.y < -10 || this.exploded) {
+        this.bullets.remove(this);
+    }
 };
 
 Bullet.prototype.getCenter = function () {
