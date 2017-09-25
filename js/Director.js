@@ -21,13 +21,14 @@ Director.prototype.play = function () {
     var temp = this;
 
     // this.animID = setInterval(temp.gameLoop(), 1000 / 60);
-    this.animenimesID = setInterval(function () {
-        //5.添加敌人
-        temp.enimes.push(new Enemy(temp.ctx, temp.enimes));
-    }, 1500);
     this.animID = setInterval(function () {
         temp.gameLoop();
     }, 1000 / 60);
+    this.animenimesID = setInterval(function () {
+        //5.添加敌人
+        temp.enimes.push(new Enemy(temp));
+
+    }, 1000);
     //飞机按键监听
     new KeyControl();
 }
@@ -86,29 +87,33 @@ Director.prototype.gameLoop = function () {
      * 7.飞机撞击动画
      */
     for (var i = 0; i < this.enimes.length; i++) {
-        for (var j=0; j < this.players.length; j++) {
-        if (IsCollided(this.enimes[i], this.players[j])) {
-            this.players[j].exploded = true;
+        for (var j = 0; j < this.players.length; j++) {
+            if (IsCollided(this.enimes[i], this.players[j])) {
+                this.players[j].exploded = true;
+            }
         }
     }
+    /***
+     * 添加道具
+     */
+    console.log("道具:" + this.grade.IndexGrade);
+    if (this.grade.IndexGrade > -1) {
+        if (this.props.length===0) {
+            this.props.push(new Prop(this));
+        }
     }
     /***
      * 8画道具
      */
-    if (this.grade.IndexGrade > 10000) {
-        if (this.props.length < 1) {
-            this.props.push(new Prop(this));
-        }
-    }
-    if (this.props.length > 0) {
-        this.props[0].draw();
+    for (var i = 0; i < this.props.length; i++) {
+        this.props[i].draw();
     }
     /***
      * 9.吃道具
      */
     for (var i = 0; i < this.props.length; i++) {
-        for (var j=0; j < this.players.length; j++) {
-            if (IsCollided(this.players[i], this.players[j])) {
+        for (var j = 0; j < this.players.length; j++) {
+            if (IsCollided(this.props[i], this.players[j])) {
                 this.players[j].bulleType = 1;
                 this.props[i].exploded = true;
             }
@@ -124,8 +129,8 @@ Director.prototype.gameLoop = function () {
  */
 Director.prototype.onPause = function () {
     clearInterval(this.animID);
-    // clearInterval(this.animenimesID);
-    // this.animenimesID = null;
+    clearInterval(this.animenimesID);
+    this.animenimesID = null;
     this.animID = null;
 }
 

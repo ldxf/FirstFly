@@ -14,7 +14,7 @@ function Bullet(ctx, x, y, bullets) {
 }
 
 Bullet.prototype.draw = function () {
-    console.log("子弹数:" + this.bullets.length);
+    // console.log("子弹数:" + this.bullets.length);
         this.ctx.drawImage(this.img, this.x, this.y);
         this.y -= 5;
         if (this.y < -10 || this.exploded) {

@@ -44,7 +44,7 @@ Prop.prototype.draw = function () {
         //     this.x, this.y,
         //     44, 49);
         // this.explodeIndex++;
-        this.props.remove(this);
+        this.props.removeAll();
     }
 }
 
