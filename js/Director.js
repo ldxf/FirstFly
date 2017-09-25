@@ -12,6 +12,7 @@ function Director() {
     this.animenimesID = null;//刷帧ID
     this.status = 0;//游戏阶段（0-选择玩家 1-开始游戏）
     this.multiPlayer = false;
+    this.time = 0; //(因为动画设置了1秒60帧，所以time=60代表一秒)
 }
 
 /**
@@ -47,24 +48,32 @@ Director.prototype.gameLoop = function () {
         this.players[0].draw();
         this.players[1].draw();
     }
-    //4.画分数
-    this.grade.draw();
+    // //4.画分数
+    // this.grade.draw();
     //5.添加敌人
     // this.enimes.push(new Enemy(this.ctx, this.enimes));
 
-    /***
-     * 4.画敌人
-     */
-    for (var i = 0; i < this.enimes.length; i++) {
-        this.enimes[i].draw();
-    }
-    /***
-     * 5.画子弹
-     */
-    console.log(this.bullets.length)
+    // //4.画敌人
+    // for (var i = 0; i < this.enimes.length; i++) {
+    //     this.enimes[i].draw();
+    // }
+    //5.画子弹
     for (var i = 0; i < this.bullets.length; i++) {
         this.bullets[i].draw();
     }
+    // //6.爆炸检测
+    // for (var i = 0; i < this.enimes.length; i++) {
+    //     for (var j = 0; j < this.bullets.length; j++) {
+    //         if (!this.enimes[i].exploded) {
+    //             if (IsCollided(this.enimes[i], this.bullets[j])) {
+    //                 console.log("打中了");
+    //                 this.enimes[i].exploded = true;
+    //                 this.bullets[j].exploded = true;
+    //                 this.grade.setGrade((this.enimes[i].airplaneType + 1) * 1000);
+    //             }
+    //         }
+    //     }
+    // }
 
     /***
      * 6.爆炸检测
@@ -117,7 +126,13 @@ Director.prototype.gameLoop = function () {
     // if (this.players.animStep()) {
     //     this.onPause();
     // }
-}
+
+    this.time++;
+    //一分钟清零一次
+    if(this.time === 60 * 60){
+        this.time = 0;
+    }
+};
 
 /**
  * 暂停动画（游戏循环）
@@ -127,7 +142,7 @@ Director.prototype.onPause = function () {
     // clearInterval(this.animenimesID);
     // this.animenimesID = null;
     this.animID = null;
-}
+};
 
 /**
  * 画玩家选择
@@ -149,7 +164,7 @@ Director.prototype.drawChoose = function (choose) {
         this.ctx.font = "20px Arial";
         this.ctx.fillText("2 players", this.width / 2, this.height / 2 + 40, 1000);
     }
-}
+};
 
 /**
  * 选择玩家
@@ -184,14 +199,14 @@ Director.prototype.choosePlayer = function () {
             case keyCode.keyEnter:
                 if (choose === 1) {
                     var player = new Player(temp);
-                    player.initPlayer("img/Player.png", temp.width / 2 - player.width / 2, temp.height * 3 / 4);
+                    player.initPlayer("img/Player.png", temp.width / 2 - player.width / 2, temp.height * 3 / 4,false);
                     temp.players.push(player);
                 } else if (choose === 2) {
                     var player1 = new Player(temp);
-                    player1.initPlayer("img/Player.png", temp.width / 3, temp.height * 3 / 4);
+                    player1.initPlayer("img/Player2.png", temp.width * 2/3, temp.height * 3 / 4);
                     temp.players.push(player1);
                     var player2 = new Player(temp);
-                    player2.initPlayer("img/Player2.png", temp.width * 2 / 3, temp.height * 3 / 4);
+                    player2.initPlayer("img/Player.png", temp.width /3 , temp.height * 3 / 4,true);
                     temp.players.push(player2);
                     temp.multiPlayer = true;
                 }
@@ -204,5 +219,5 @@ Director.prototype.choosePlayer = function () {
                 break;
         }
     })
-}
+};
 
