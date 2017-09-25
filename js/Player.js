@@ -66,7 +66,7 @@ Player.prototype.draw = function () {
         if (!this.exploded2) {
             this.ctx.drawImage(this.img2, this.palyer2X, this.palyer2Y);
             if (keyStatus.keyAStatus) {
-                this.palyer2X > -this.width ? this.palyer2X -= 5 : this.palyer2X
+                this.palyer2X > 0 ? this.palyer2X -= 5 : this.palyer2X
             }
             if (keyStatus.keyDStatus) {
                 this.palyer2X < this.director.width - this.width ? this.palyer2X += 5 : this.palyer2X;
