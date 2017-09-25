@@ -6,6 +6,7 @@ function Director() {
     this.players = [];//玩家
     this.enimes = [];//敌人集合
     this.bullets = [];//子弹集合
+    this.props = [];//道具集合
     this.grade = null;//分数
     this.animID = null;//刷帧ID
     this.animenimesID = null;//刷帧ID
@@ -20,15 +21,15 @@ Director.prototype.play = function () {
     var temp = this;
 
     // this.animID = setInterval(temp.gameLoop(), 1000 / 60);
-    // this.animenimesID = setInterval(function () {
-    //     //5.添加敌人
-    //     temp.enimes.push(new Enemy(temp.ctx, temp.enimes));
-    // }, 1500);
+    this.animenimesID = setInterval(function () {
+        //5.添加敌人
+        temp.enimes.push(new Enemy(temp.ctx, temp.enimes));
+    }, 1500);
     this.animID = setInterval(function () {
         temp.gameLoop();
     }, 1000 / 60);
     //飞机按键监听
-    new KeyControl(temp);
+    new KeyControl();
 }
 
 /**
@@ -46,47 +47,73 @@ Director.prototype.gameLoop = function () {
         this.players[0].draw();
         this.players[1].draw();
     }
-    // //4.画分数
-    // this.grade.draw();
+    //4.画分数
+    this.grade.draw();
     //5.添加敌人
     // this.enimes.push(new Enemy(this.ctx, this.enimes));
 
-    // //4.画敌人
-    // for (var i = 0; i < this.enimes.length; i++) {
-    //     this.enimes[i].draw();
-    // }
-    // //5.画子弹
-    // for (var i = 0; i < this.bullets.length; i++) {
-    //     this.bullets[i].draw();
-    // }
-    // //6.爆炸检测
-    // for (var i = 0; i < this.enimes.length; i++) {
-    //     for (var j = 0; j < this.bullets.length; j++) {
-    //         if (!this.enimes[i].exploded) {
-    //             if (IsCollided(this.enimes[i], this.bullets[j])) {
-    //                 console.log("打中了");
-    //                 this.enimes[i].exploded = true;
-    //                 this.bullets[j].exploded = true;
-    //                 this.grade.setGrade((this.enimes[i].airplaneType + 1) * 1000);
-    //             }
-    //         }
-    //     }
-    // }
+    /***
+     * 4.画敌人
+     */
+    for (var i = 0; i < this.enimes.length; i++) {
+        this.enimes[i].draw();
+    }
+    /***
+     * 5.画子弹
+     */
+    console.log(this.bullets.length)
+    for (var i = 0; i < this.bullets.length; i++) {
+        this.bullets[i].draw();
+    }
 
-    //7.飞机撞击动画
-    // for (var i = 0; i < this.enimes.length; i++) {
-    //     if (IsCollided(this.enimes[i], this.players)) {
-    //         console.log("飞机撞击动画");
-    //         this.players.exploded = true;
-    //     }
-    //     if (this.players.multiPlayer) {
-    //         if (IsCollided2(this.enimes[i], this.players)) {
-    //             console.log("飞机撞击动画");
-    //             this.players.exploded2 = true;
-    //         }
-    //     }
-    // }
+    /***
+     * 6.爆炸检测
+     */
+    for (var i = 0; i < this.enimes.length; i++) {
+        for (var j = 0; j < this.bullets.length; j++) {
+            if (!this.enimes[i].exploded) {
+                if (IsCollided(this.enimes[i], this.bullets[j])) {
+                    console.log("打中了");
+                    this.enimes[i].exploded = true;
+                    this.bullets[j].exploded = true;
+                    this.grade.setGrade((this.enimes[i].airplaneType + 1) * 1000);
+                }
+            }
+        }
+    }
 
+    /***
+     * 7.飞机撞击动画
+     */
+    for (var i = 0; i < this.enimes.length; i++) {
+        for (var j=0; j < this.players.length; j++) {
+        if (IsCollided(this.enimes[i], this.players[j])) {
+            this.players[j].exploded = true;
+        }
+    }
+    }
+    /***
+     * 8画道具
+     */
+    if (this.grade.IndexGrade > 10000) {
+        if (this.props.length < 1) {
+            this.props.push(new Prop(this));
+        }
+    }
+    if (this.props.length > 0) {
+        this.props[0].draw();
+    }
+    /***
+     * 9.吃道具
+     */
+    for (var i = 0; i < this.props.length; i++) {
+        for (var j=0; j < this.players.length; j++) {
+            if (IsCollided(this.players[i], this.players[j])) {
+                this.players[j].bulleType = 1;
+                this.props[i].exploded = true;
+            }
+        }
+    }
     // if (this.players.animStep()) {
     //     this.onPause();
     // }
@@ -139,7 +166,6 @@ Director.prototype.choosePlayer = function () {
         temp.back.draw();
         //3.画选择
         temp.drawChoose(choose);
-       // temp.prop.draw();
     }, 1000 / 60);
 
     $(document).keydown(function (e) {
@@ -165,7 +191,7 @@ Director.prototype.choosePlayer = function () {
                     player1.initPlayer("img/Player.png", temp.width / 3, temp.height * 3 / 4);
                     temp.players.push(player1);
                     var player2 = new Player(temp);
-                    player2.initPlayer("img/Player2.png", temp.width * 2/3 , temp.height * 3 / 4);
+                    player2.initPlayer("img/Player2.png", temp.width * 2 / 3, temp.height * 3 / 4);
                     temp.players.push(player2);
                     temp.multiPlayer = true;
                 }

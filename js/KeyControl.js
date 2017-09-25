@@ -14,8 +14,6 @@ var keyCode = {
     keyEnter: 13,
     keyEsc: 27,
     key0: 96
-
-
 }
 
 var keyStatus = {
@@ -33,12 +31,8 @@ var keyStatus = {
     key0Status: false
 }
 
-function KeyControl(director) {
-    // this.director = director;
-    var stringControl="";
+function KeyControl() {
     $(document).keydown(function (e) {
-        console.log(e.which);
-        stringControl+=e.which;
         switch (e.which) {
             case keyCode.keyLeft:
                 keyStatus.keyLeftStatus = true;
@@ -66,7 +60,6 @@ function KeyControl(director) {
                 break;
             case keyCode.keyEnter:
                 keyStatus.keyEnterStatus = true;
-                stringControl="";
                 break;
             case keyCode.keySpace:
                 keyStatus.keySpaceStatus = true;
