@@ -4,7 +4,7 @@ $(function () {
     director.back = new Background(director);
     // director.players = new Player(director);
     director.grade = new Grade(director);
-    director.prop = new Prop(director);
+    // director.prop = new Prop(director);
     director.width = director.ctx.canvas.width;
     director.height = director.ctx.canvas.height;
 

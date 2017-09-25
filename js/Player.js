@@ -19,8 +19,13 @@ function Player(director) {
     // this.exploded2 = false;
     // this.img2 = new Image();
 
+    this.BulleCode = {
+        Type0: 0,
+        Type1: 1
 
-    this.bulleType = 0;
+    };
+    this.bulleType = this.BulleCode.Type0;
+
 }
 
 Player.prototype.draw = function () {
@@ -53,8 +58,15 @@ Player.prototype.draw = function () {
 };
 
 Player.prototype.fire = function (removeX, removeY) {
-    var bul = new Bullet(this.ctx, removeX, removeY, this.bullets);
-    this.bullets.push(bul);
+    switch (this.bulleType){
+        case this.BulleCode.Type0:
+            this.BulletType0(removeX,removeY);
+            break;
+        case this.BulleCode.Type1:
+            this.BulletType1(removeX,removeY);
+            break;
+    }
+
 };
 
 Player.prototype.getCenter = function () {
@@ -63,7 +75,7 @@ Player.prototype.getCenter = function () {
 
 Player.prototype.animStep = function () {
     // console.log(this.explodeIndex);
-    return (this.exploded && this.explodeIndex > 7) && (this.multiPlayer ? (this.exploded2 && this.explodeIndex2 > 7) : true);
+    return (this.exploded && this.explodeIndex > 7);
 }
 
 
@@ -71,5 +83,15 @@ Player.prototype.initPlayer = function (img, x, y) {
     this.img.src = img;
     this.x = x;
     this.y = y;
+}
+
+
+Player.prototype.BulletType0 = function (x, y) {
+    this.bullets.push(new Bullet(this.ctx, x, y, this.bullets));
+}
+Player.prototype.BulletType1 = function (x, y) {
+    this.bullets.push(new Bullet(this.ctx, x, y, this.bullets));
+    this.bullets.push(new Bullet(this.ctx, x-this.width/2, y+this.height/2, this.bullets));
+    this.bullets.push(new Bullet(this.ctx, x+this.width/2, y+this.height/2, this.bullets));
 }
 
