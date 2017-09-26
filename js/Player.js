@@ -17,7 +17,10 @@ function Player(director) {
     this.BulleCode = {
         Type0: 0,
         Type1: 1,
-        Type2: 2
+        Type2: 2,
+        Type3: 3,
+        Type4: 4,
+        Type5: 5
     };
     this.bulleType = this.BulleCode.Type0;
 
@@ -51,15 +54,6 @@ Player.prototype.draw = function () {
 
 Player.prototype.fire = function (removeX, removeY) {
     this.bullets.push(new Bullet(this.director, removeX, removeY,this.isSecondPlayer,false,false,false));
-    // switch (this.bulleType) {
-    //     case this.BulleCode.Type0:
-    //         this.BulletType0(removeX, removeY);
-    //         break;
-    //     case this.BulleCode.Type1:
-    //         this.BulletType1(removeX, removeY);
-    //         break;
-    // }
-
 };
 
 Player.prototype.getCenter = function () {
@@ -116,15 +110,3 @@ Player.prototype.setKeyBullet = function () {
         }
     }
 };
-
-
-Player.prototype.BulletType0 = function (x, y) {
-    this.bullets.push(new Bullet(this.director, x, y));
-}
-
-Player.prototype.BulletType1 = function (x, y) {
-    this.bullets.push(new Bullet(this.ctx, x, y, this.bullets));
-    this.bullets.push(new Bullet(this.ctx, x - this.width / 2, y + this.height / 2, this.bullets));
-    this.bullets.push(new Bullet(this.ctx, x + this.width / 2, y + this.height / 2, this.bullets));
-}
-

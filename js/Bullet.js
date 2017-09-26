@@ -7,10 +7,10 @@
  * isRight 子弹是否在飞机的右边
  *
  */
-function Bullet(director, x, y, isSecondPlayer,isCreate,isLeft,isRight) {
-    this.isCreate=isCreate;
-    this.isLeft=isLeft;
-    this.isRight=isRight;
+function Bullet(director, x, y, isSecondPlayer, isCreate, isLeft, isRight) {
+    this.isCreate = isCreate;
+    this.isLeft = isLeft;
+    this.isRight = isRight;
     this.director = director;
     this.isSecondPlayer = isSecondPlayer;
     this.ctx = director.ctx;
@@ -23,24 +23,25 @@ function Bullet(director, x, y, isSecondPlayer,isCreate,isLeft,isRight) {
     this.bullets = director.bullets;
     this.exploded = false;
     this.speed = 10;
-    this.players = director.players;
-    // this.bulleType = this.players[this.isSecondPlayer ? 0 : 1].bulleType;
-    // this.BulleCode = this.players[this.isSecondPlayer ? 0 : 1].BulleCode;
-    this.bulleType = 2;
-    this.BulleCode = {
-        Type0: 0,
-        Type1: 1,
-        Type2: 2
-    };
+    this.bulleType = this.director.players[!this.isSecondPlayer ? 0 : 1].bulleType;
+    this.BulleCode = this.director.players[!this.isSecondPlayer ? 0 : 1].BulleCode;
+
+    // this.bulleType = 1;
+    // this.BulleCode = {
+    //     Type0: 0,
+    //     Type1: 1,
+    //     Type2: 2
+    // };
 }
 
 Bullet.prototype.draw = function () {
     // console.log("子弹数:" + this.bullets.length);
     if (this.bulleType === this.BulleCode.Type2) {
-        if(!this.isCreate){
+        if (!this.isCreate) {
             this.BulletType2();
+            this.ctx.drawImage(this.img, this.x, this.y);
         }
-        if(this.isLeft){
+        if (this.isLeft) {
             this.ctx.save();
             this.ctx.translate(this.x + 14, this.y - 8);              //移动到图形的中心
             this.ctx.rotate((Math.PI / 180) * -45);  //旋转45度
@@ -48,7 +49,7 @@ Bullet.prototype.draw = function () {
             this.ctx.restore();
             this.x += 3;
         }
-        if(this.isRight){
+        if (this.isRight) {
             this.ctx.save();
             this.ctx.translate(this.x + 14, this.y - 8);              //移动到图形的中心
             this.ctx.rotate((Math.PI / 180) * 45);  //旋转45度
@@ -56,7 +57,6 @@ Bullet.prototype.draw = function () {
             this.ctx.restore();
             this.x -= 3;
         }
-        this.ctx.drawImage(this.img, this.x, this.y);
         this.y -= this.speed;
         if (this.y < -10 || this.exploded) {
             this.bullets.remove(this);
@@ -64,7 +64,7 @@ Bullet.prototype.draw = function () {
         return;
     }
 
-    if(!this.isCreate){
+    if (!this.isCreate) {
         this.setLocus();
     }
     this.ctx.drawImage(this.img, this.x, this.y);
@@ -85,6 +85,17 @@ Bullet.prototype.setLocus = function () {
         case this.BulleCode.Type1:
             this.BulletType1(this.x, this.y);
             break;
+        case this.BulleCode.Type2:
+            break;
+        case this.BulleCode.Type3:
+            this.BulletType3(this.x, this.y);
+            break;
+        case this.BulleCode.Type4:
+            this.BulletType4(this.x, this.y);
+            break;
+        case this.BulleCode.Type5:
+            this.BulletType0(this.x, this.y);
+            break;
     }
 };
 
@@ -92,10 +103,22 @@ Bullet.prototype.BulletType0 = function () {
 }
 
 Bullet.prototype.BulletType1 = function () {
-    this.bullets.push(new Bullet(this.director, this.x - this.width / 2, this.y + this.height / 2, this.isSecondPlayer,true,false,false));
-    this.bullets.push(new Bullet(this.director, this.x + this.width / 2, this.y + this.height / 2, this.isSecondPlayer,true,false,false));
+    this.bullets.push(new Bullet(this.director, this.x - this.width / 2, this.y + this.height / 2, this.isSecondPlayer, true, false, false));
+    this.bullets.push(new Bullet(this.director, this.x + this.width / 2, this.y + this.height / 2, this.isSecondPlayer, true, false, false));
 }
 Bullet.prototype.BulletType2 = function () {
-    this.bullets.push(new Bullet(this.director, this.x - this.width / 2, this.y + this.height / 2, this.isSecondPlayer,true,true,false));
-    this.bullets.push(new Bullet(this.director, this.x + this.width / 2, this.y + this.height / 2, this.isSecondPlayer,true,false,true));
+    this.bullets.push(new Bullet(this.director, this.x - this.width / 2, this.y + this.height / 2, this.isSecondPlayer, true, true, false));
+    this.bullets.push(new Bullet(this.director, this.x + this.width / 2, this.y + this.height / 2, this.isSecondPlayer, true, false, true));
+}
+Bullet.prototype.BulletType3 = function () {
+    this.bullets.push(new Bullet(this.director, this.x - this.width / 2, this.y + this.height / 2, this.isSecondPlayer, true, false, false));
+    this.bullets.push(new Bullet(this.director, this.x + this.width / 2, this.y + this.height / 2, this.isSecondPlayer, true, false, false));
+    this.bullets.push(new Bullet(this.director, this.x - this.width , this.y + this.height / 2, this.isSecondPlayer, true, false, false));
+    this.bullets.push(new Bullet(this.director, this.x + this.width , this.y + this.height / 2, this.isSecondPlayer, true, false, false));
+}
+Bullet.prototype.BulletType4 = function () {
+    this.bullets.push(new Bullet(this.director, this.x - this.width / 2, this.y + this.height / 2, this.isSecondPlayer, true, false, false));
+    this.bullets.push(new Bullet(this.director, this.x + this.width / 2, this.y + this.height / 2, this.isSecondPlayer, true, false, false));
+    this.bullets.push(new Bullet(this.director, this.x - this.width , this.y + this.height / 2, this.isSecondPlayer, true, false, false));
+    this.bullets.push(new Bullet(this.director, this.x + this.width , this.y + this.height / 2, this.isSecondPlayer, true, false, false));
 }
