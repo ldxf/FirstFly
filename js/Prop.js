@@ -5,11 +5,12 @@ function Prop(director) {
     this.ctx = director.ctx;
     this.director = director;
     this.img = new Image();
-    // this.imgs = ["img/enemy_small.png", "img/enemy_small_2.png", "img/enemy_small_2_special.png",
-    //     "img/enemy_small_3.png", "img/enemy_small_4.png"];
-    this.img.src = "img/prop.png";
-    this.x = parseInt((Math.random() * 500).toFixed(0));
-    this.y = parseInt((Math.random() * 700).toFixed(0));
+    this.imgs = ["img/dog.png", "img/elephants.png", "img/husky.png",
+        "img/swans.png", "img/prop.png"];
+    this.propTypeCode = parseInt(((Math.random() * 10).toFixed(0) % (this.imgs.length > Object.keys(this.director.players[0].BulleCode).length ? Object.keys(this.director.players[0].BulleCode).length : this.imgs.length)));//因为第一个玩家一定存在
+    this.img.src = this.imgs[this.propTypeCode];
+    this.x = parseInt((Math.random() * director.width).toFixed(0));
+    this.y = 0;
     this.vx = 5;//速度vx，vy
     this.vy = 2;
     this.width = 32;

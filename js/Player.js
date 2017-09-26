@@ -16,7 +16,8 @@ function Player(director) {
     this.isAutoFire = false;
     this.BulleCode = {
         Type0: 0,
-        Type1: 1
+        Type1: 1,
+        Type2: 2
     };
     this.bulleType = this.BulleCode.Type0;
 
@@ -29,14 +30,14 @@ function Player(director) {
 Player.prototype.draw = function () {
     if (!this.exploded) {
         this.ctx.drawImage(this.img, this.x, this.y);
-        if(!this.isSecondPlayer){
+        if (!this.isSecondPlayer) {
             //位置移动
-            this.setKeyDirection(keyStatus.keyLeftStatus,keyStatus.keyRightStatus,keyStatus.keyUpStatus,keyStatus.keyDownStatus);
+            this.setKeyDirection(keyStatus.keyLeftStatus, keyStatus.keyRightStatus, keyStatus.keyUpStatus, keyStatus.keyDownStatus);
             //子弹控制
             this.setKeyBullet();
-        }else {
+        } else {
             //第二玩家
-            this.setKeyDirection(keyStatus.keyAStatus,keyStatus.keyDStatus,keyStatus.keyWStatus,keyStatus.keySStatus);
+            this.setKeyDirection(keyStatus.keyAStatus, keyStatus.keyDStatus, keyStatus.keyWStatus, keyStatus.keySStatus);
         }
     } else {
         if (this.explodeIndex < 10) {
@@ -49,14 +50,15 @@ Player.prototype.draw = function () {
 };
 
 Player.prototype.fire = function (removeX, removeY) {
-    switch (this.bulleType){
-        case this.BulleCode.Type0:
-            this.BulletType0(removeX,removeY);
-            break;
-        case this.BulleCode.Type1:
-            this.BulletType1(removeX,removeY);
-            break;
-    }
+    this.bullets.push(new Bullet(this.director, removeX, removeY,this.isSecondPlayer,false,false,false));
+    // switch (this.bulleType) {
+    //     case this.BulleCode.Type0:
+    //         this.BulletType0(removeX, removeY);
+    //         break;
+    //     case this.BulleCode.Type1:
+    //         this.BulletType1(removeX, removeY);
+    //         break;
+    // }
 
 };
 
@@ -70,7 +72,7 @@ Player.prototype.animStep = function () {
 }
 
 
-Player.prototype.initPlayer = function (img, x, y,isSecondPlayer) {
+Player.prototype.initPlayer = function (img, x, y, isSecondPlayer) {
     this.img.src = img;
     this.x = x;
     this.y = y;
@@ -81,7 +83,7 @@ Player.prototype.initPlayer = function (img, x, y,isSecondPlayer) {
  * 设置键盘方向
  * 解释：上下左右控制
  */
-Player.prototype.setKeyDirection = function (keyLeft,keyRight,keyUp,keyDown) {
+Player.prototype.setKeyDirection = function (keyLeft, keyRight, keyUp, keyDown) {
     if (keyLeft) {
         this.x > 0 ? this.x -= 5 : this.x;
     }
@@ -102,14 +104,14 @@ Player.prototype.setKeyDirection = function (keyLeft,keyRight,keyUp,keyDown) {
  */
 Player.prototype.setKeyBullet = function () {
     var temp = this;
-    if(!this.isAutoFire){
+    if (!this.isAutoFire) {
         if (keyStatus.keyDotStatus) {
             this.fire(this.x + 8, this.y);
             keyStatus.keyDotStatus = false;
         }
-    }else {
+    } else {
         //自动攻击（1秒6颗子弹）
-        if(temp.director.time % 10 ===0){
+        if (temp.director.time % 10 === 0) {
             temp.fire(temp.x + 8, temp.y);
         }
     }
@@ -117,11 +119,12 @@ Player.prototype.setKeyBullet = function () {
 
 
 Player.prototype.BulletType0 = function (x, y) {
-    this.bullets.push(new Bullet(this.ctx, x, y, this.bullets));
+    this.bullets.push(new Bullet(this.director, x, y));
 }
+
 Player.prototype.BulletType1 = function (x, y) {
     this.bullets.push(new Bullet(this.ctx, x, y, this.bullets));
-    this.bullets.push(new Bullet(this.ctx, x-this.width/2, y+this.height/2, this.bullets));
-    this.bullets.push(new Bullet(this.ctx, x+this.width/2, y+this.height/2, this.bullets));
+    this.bullets.push(new Bullet(this.ctx, x - this.width / 2, y + this.height / 2, this.bullets));
+    this.bullets.push(new Bullet(this.ctx, x + this.width / 2, y + this.height / 2, this.bullets));
 }
 
