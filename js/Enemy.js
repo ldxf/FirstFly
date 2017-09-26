@@ -37,6 +37,9 @@ Enemy.prototype.draw = function () {
             this.x, this.y,
             44, 49);
         this.explodeIndex++;
+        if(this.explodeIndex>7){
+            this.emys.remove(this);
+        }
     }
     if (this.y > this.director.height) {
         this.emys.remove(this);

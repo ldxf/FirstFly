@@ -21,10 +21,10 @@ function Director() {
 Director.prototype.play = function () {
     var temp = this;
 
-    this.animID = setInterval(function () {
+    temp.animID = setInterval(function () {
         temp.gameLoop();
     }, 1000 / 60);
-    this.animenimesID = setInterval(function () {
+    temp.animenimesID = setInterval(function () {
         //5.添加敌人
         temp.enimes.push(new Enemy(temp));
 
@@ -37,107 +37,90 @@ Director.prototype.play = function () {
  * 游戏动画循环
  */
 Director.prototype.gameLoop = function () {
+    var temp = this;
     //1.清屏
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    temp.ctx.clearRect(0, 0, this.width, this.height);
     //2.画背景
-    this.back.draw();
+    temp.back.draw();
     //3.画玩家
-    if (!this.multiPlayer) {
-        this.players[0].draw();
+    if (!temp.multiPlayer) {
+        temp.players[0].draw();
+        if (temp.players[0].animStep())
+            temp.onPause();
     } else {
-        this.players[0].draw();
-        this.players[1].draw();
+        temp.players[0].draw();
+        temp.players[1].draw();
+        if (temp.players[0].animStep() && temp.players[1].animStep())
+            temp.onPause();
     }
     //4.画分数
-    this.grade.draw();
-    // 5.添加敌人
-    // this.enimes.push(new Enemy(this.ctx, this.enimes));
-
+    temp.grade.draw();
     //4.画敌人
-    for (var i = 0; i < this.enimes.length; i++) {
-        this.enimes[i].draw();
-    }
+    temp.enimes.forEach(function (enime) {
+        enime.draw();
+        /***
+         * 7.飞机撞击动画
+         */
+        temp.players.forEach(function (player) {
+            if (IsCollided(enime, player)) {
+                player.exploded = true;
+            }
+        });
+        /***
+         * 6.爆炸检测
+         */
+        temp.bullets.forEach(function (bullet) {
+            if (!enime.exploded) {
+                if (IsCollided(enime,bullet)) {
+                    console.log("打中了");
+                    enime.exploded = true;
+                    bullet.exploded = true;
+                    temp.grade.setGrade((enime.airplaneType + 1) * 1000);
+                }
+            }
+        });
+
+    });
     //5.画子弹
-    // this.bullets.forEach(function (t) {
-    //     t.draw();
-    // });
-    for (var i = 0; i < this.bullets.length; i++) {
-        this.bullets[i].draw();
-    }
-    //6.爆炸检测
-    for (var i = 0; i < this.enimes.length; i++) {
-        for (var j = 0; j < this.bullets.length; j++) {
-            if (!this.enimes[i].exploded) {
-                if (IsCollided(this.enimes[i], this.bullets[j])) {
-                    console.log("打中了");
-                    this.enimes[i].exploded = true;
-                    this.bullets[j].exploded = true;
-                    this.grade.setGrade((this.enimes[i].airplaneType + 1) * 1000);
-                }
-            }
-        }
-    }
+    temp.bullets.forEach(function (bullet) {
+        bullet.draw();
+    });
 
-    /***
-     * 6.爆炸检测
-     */
-    for (var i = 0; i < this.enimes.length; i++) {
-        for (var j = 0; j < this.bullets.length; j++) {
-            if (!this.enimes[i].exploded) {
-                if (IsCollided(this.enimes[i], this.bullets[j])) {
-                    console.log("打中了");
-                    this.enimes[i].exploded = true;
-                    this.bullets[j].exploded = true;
-                    this.grade.setGrade((this.enimes[i].airplaneType + 1) * 1000);
-                }
-            }
-        }
-    }
-
-    /***
-     * 7.飞机撞击动画
-     */
-    for (var i = 0; i < this.enimes.length; i++) {
-        for (var j = 0; j < this.players.length; j++) {
-            if (IsCollided(this.enimes[i], this.players[j])) {
-                this.players[j].exploded = true;
-            }
-        }
-    }
     /***
      * 添加道具
      */
-    if (this.grade.IndexGrade > -1) {
-        if (this.props.length === 0) {
-            this.props.push(new Prop(this));
+    if (temp.grade.IndexGrade > -1) {
+        if (temp.props.length === 0) {
+            temp.props.push(new Prop(temp));
         }
     }
     /***
      * 8画道具
      */
-        for (var i = 0; i < this.props.length; i++) {
-            this.props[i].draw();
-        }
+    temp.props.forEach(function (prop) {
+        prop.draw();
+    });
+
     /***
      * 9.吃道具
      */
 
-    for (var i = 0; i < this.props.length; i++) {
-        for (var j = 0; j < this.players.length; j++) {
-            if (IsCollided(this.props[i], this.players[j])) {
-                this.players[j].bulleType = 1;
-                this.props[i].exploded = true;
+    temp.props.forEach(function (prop) {
+        temp.players.forEach(function (player) {
+            if (IsCollided(prop, player)) {
+                player.bulleType = prop.propTypeCode;
+                console.log("propTypeCode2222222222222:" + prop.propTypeCode);
+                prop.exploded = true;
             }
-        }
-    }
-    // if (this.players.animStep()) {
-    //     this.onPause();
-    // }
+        });
 
-    this.time++;
+    });
+
+
+    temp.time++;
     //一分钟清零一次
-    if (this.time === 60 * 60) {
-        this.time = 0;
+    if (temp.time === 60 * 60) {
+        temp.time = 0;
     }
 };
 
