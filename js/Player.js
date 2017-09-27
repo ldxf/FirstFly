@@ -53,7 +53,7 @@ Player.prototype.draw = function () {
 };
 
 Player.prototype.fire = function (removeX, removeY) {
-    this.bullets.push(new Bullet(this.director, removeX, removeY,this.isSecondPlayer,false,false,false));
+    this.bullets.push(new Bullet(this.director, removeX, removeY,this.isSecondPlayer,false,false,false,0));
 };
 
 Player.prototype.getCenter = function () {
