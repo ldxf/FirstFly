@@ -7,7 +7,7 @@ function Prop(director) {
     this.img = new Image();
     this.imgs = ["img/dog.png", "img/elephants.png", "img/husky.png",
         "img/swans.png", "img/prop.png"];
-    this.propTypeCode = parseInt(((Math.random() * 10).toFixed(0) % (this.imgs.length > Object.keys(this.director.players[0].BulleCode).length ? Object.keys(this.director.players[0].BulleCode).length : this.imgs.length)));//因为第一个玩家一定存在
+    this.propTypeCode = parseInt(((Math.random() * (this.imgs.length > Object.keys(this.director.players[0].BulleCode).length ? Object.keys(this.director.players[0].BulleCode).length-1: this.imgs.length-1)).toFixed(0)));//因为第一个玩家一定存在
     this.img.src = this.imgs[this.propTypeCode];
     this.x = parseInt((Math.random() * director.width).toFixed(0));
     this.y = 0;
