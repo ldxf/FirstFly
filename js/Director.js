@@ -108,12 +108,11 @@ Director.prototype.gameLoop = function () {
     temp.props.forEach(function (prop) {
         temp.players.forEach(function (player) {
             if (IsCollided(prop, player)) {
-                player.bulleType = prop.propTypeCode;
-                console.log("propTypeCode2222222222222:" + prop.propTypeCode);
+                player.BulletType =  prop.propTypeCode;
+                console.log("propTypeCode:" + prop.propTypeCode);
                 prop.exploded = true;
             }
         });
-
     });
 
 
@@ -122,6 +121,11 @@ Director.prototype.gameLoop = function () {
     if (temp.time === 60 * 60) {
         temp.time = 0;
     }
+
+    // if (temp.time % 60 === 0 ) {
+    //     console.log( s);
+    // }
+
 };
 
 /**
