@@ -30,7 +30,7 @@ Director.prototype.play = function () {
 
     }, 1000);
     //飞机按键监听
-    new KeyControl();
+    new KeyControl(this);
 }
 
 /**
@@ -176,7 +176,6 @@ Director.prototype.choosePlayer = function () {
         //3.画选择
         temp.drawChoose(choose);
     }, 1000 / 60);
-
     $(document).keydown(function (e) {
         if (temp.status !== 0) {
             return;

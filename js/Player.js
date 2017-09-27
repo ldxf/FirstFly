@@ -23,6 +23,8 @@ function Player(director) {
     };
     this.BulletType = this.PropCode.Type0;
     // this.BulletType = this.director.players[!this.isSecondPlayer ? 0 : 1].BulletType;
+    this.vx = 0;
+    this.vy = 0;
 }
 
 /**
@@ -63,31 +65,31 @@ Player.prototype.fire = function (removeX, removeY) {
     // this.BulletType = 3;
     switch (this.BulletType) {
         case this.PropCode.Type0:// code0:1颗子弹
-            this.bullets.push(new Bullet(this.director, removeX, removeY,this.isSecondPlayer,0));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, 0));
             break;
         case this.PropCode.Type1:// code1:3颗子弹
-            this.bullets.push(new Bullet(this.director, removeX, removeY,this.isSecondPlayer,0));
-            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer,-30));
-            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer,30));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, 0));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, -30));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, 30));
             break;
         case this.PropCode.Type2:// code2:散弹
-            this.bullets.push(new Bullet(this.director, removeX, removeY,this.isSecondPlayer,0));
-            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer,-15));
-            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer,-30));
-            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer,15));
-            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer,30));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, 0));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, -15));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, -30));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, 15));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, 30));
             break;
         case this.PropCode.Type3:// code3:散弹（密集）
-            this.bullets.push(new Bullet(this.director, removeX, removeY,this.isSecondPlayer,0));
-            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer,-15));
-            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer,-30));
-            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer,-45));
-            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer,15));
-            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer,30));
-            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer,45));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, 0));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, -15));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, -30));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, -45));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, 15));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, 30));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, 45));
             break;
         case this.PropCode.Type4:// code0:1颗子弹
-            this.bullets.push(new Bullet(this.director, removeX, removeY,this.isSecondPlayer,0));
+            this.bullets.push(new Bullet(this.director, removeX, removeY, this.isSecondPlayer, 0));
             break;
     }
 };
@@ -148,4 +150,9 @@ Player.prototype.setKeyBullet = function (keyAttack) {
             temp.fire(temp.x + 8, temp.y - 12);
         }
     }
+};
+
+Player.prototype.setmousemove = function (x, y) {
+    this.x=x-200;
+    this.y=y;
 };

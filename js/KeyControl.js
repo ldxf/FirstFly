@@ -33,7 +33,7 @@ var keyStatus = {
     keyDotStatus: true
 }
 
-function KeyControl() {
+function KeyControl(director) {
     $(document).keydown(function (e) {
         switch (e.which) {
             case keyCode.keyEnter:
@@ -114,4 +114,9 @@ function KeyControl() {
                 break;
         }
     });
+    document.getElementById("game_canvas").onmousemove = function (e) {
+        console.log("子弹数x:"+e.clientX);
+        console.log("子弹数y:"+e.clientY);
+        director.players[0].setmousemove(e.clientX,e.clientY);
+    }
 }

@@ -7,4 +7,5 @@ $(function () {
     director.height = director.ctx.canvas.height;
     director.choosePlayer();
 
+
 });
