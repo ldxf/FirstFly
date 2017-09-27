@@ -153,6 +153,6 @@ Player.prototype.setKeyBullet = function (keyAttack) {
 };
 
 Player.prototype.setmousemove = function (x, y) {
-    this.x=x-200;
+    this.x=x-(document.body.clientWidth-this.director.width)/2;
     this.y=y;
 };
