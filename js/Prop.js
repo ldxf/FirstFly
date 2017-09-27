@@ -5,9 +5,8 @@ function Prop(director) {
     this.ctx = director.ctx;
     this.director = director;
     this.img = new Image();
-    this.imgs = ["img/dog.png", "img/elephants.png", "img/husky.png",
-        "img/swans.png", "img/prop.png"];
-    this.propTypeCode = parseInt(((Math.random() * (this.imgs.length > Object.keys(this.director.players[0].BulleCode).length ? Object.keys(this.director.players[0].BulleCode).length-1: this.imgs.length-1)).toFixed(0)));//因为第一个玩家一定存在
+    this.imgs = ["img/dog.png", "img/elephants.png", "img/husky.png", "img/swans.png", "img/prop.png"];
+    this.propTypeCode = parseInt(Math.random()*(this.imgs.length-1));
     this.img.src = this.imgs[this.propTypeCode];
     this.x = parseInt((Math.random() * director.width).toFixed(0));
     this.y = 0;
@@ -26,9 +25,9 @@ function Prop(director) {
     // this.img.src = this.imgs[this.airplaneType];
 }
 
-
 Prop.prototype.draw = function () {
     if (!this.exploded) {
+
         this.ctx.drawImage(this.img, this.x, this.y);
         this.time > 60 ? this.time = 0 : this.time++;
         if (this.time % 2 === 0) {
@@ -49,10 +48,10 @@ Prop.prototype.draw = function () {
         //     this.x, this.y,
         //     44, 49);
         // this.explodeIndex++;
-        this.props.removeAll();
+        this.props.remove(this);
     }
-}
+};
 
 Prop.prototype.getCenter = function () {
     return new Point(this.x + this.width / 2, this.y + this.height / 2);
-}
+};

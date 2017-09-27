@@ -10,7 +10,7 @@ var keyCode = {
     keyS: 83,
     keyA: 65,
     keyD: 68,
-    keySpace: 32,
+    keyJ: 74,
     keyEnter: 13,
     keyEsc: 27,
     keyDot: 110
@@ -27,15 +27,22 @@ var keyStatus = {
     keySStatus: false,
     keyAStatus: false,
     keyDStatus: false,
-    keySpaceStatus: false,
+    keyJStatus: true,
     keyEnterStatus: false,
     keyEscStatus: false,
-    keyDotStatus: false
+    keyDotStatus: true
 }
 
 function KeyControl() {
     $(document).keydown(function (e) {
         switch (e.which) {
+            case keyCode.keyEnter:
+                keyStatus.keyEnterStatus = true;
+                break;
+            case keyCode.keyEsc:
+                keyStatus.keyEscStatus = true;
+                logout();
+                break;
             case keyCode.keyLeft:
                 keyStatus.keyLeftStatus = true;
                 break;
@@ -60,20 +67,12 @@ function KeyControl() {
             case keyCode.keyS:
                 keyStatus.keySStatus = true;
                 break;
-            case keyCode.keyEnter:
-                keyStatus.keyEnterStatus = true;
-                break;
-            case keyCode.keySpace:
-                keyStatus.keySpaceStatus = true;
+            case keyCode.keyJ:
+                keyStatus.keyJStatus = true;
                 break;
             case keyCode.keyDot:
                 keyStatus.keyDotStatus = true;
                 break;
-            case keyCode.keyEsc:
-                keyStatus.keyEscStatus = true;
-                logout();
-                break;
-
         }
     }).keyup(function (e) {
         switch (e.which) {
@@ -104,8 +103,8 @@ function KeyControl() {
             case keyCode.keyEnter:
                 keyStatus.keyEnterStatus = false;
                 break;
-            case keyCode.keySpace:
-                keyStatus.keySpaceStatus = false;
+            case keyCode.keyJ:
+                keyStatus.keyJStatus = false;
                 break;
             case keyCode.keyDot:
                 keyStatus.keyDotStatus = false;
