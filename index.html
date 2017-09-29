@@ -1,26 +1,58 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<title>飞机游戏</title>
-		<link rel="stylesheet" type="text/css" href="css/index.css"/>
-	</head>
-	<body>
-		<section id="game">
-			<canvas id="game_canvas" width=1000 height=850></canvas>
-		</section>
+<head>
+    <meta charset="utf-8"/>
+    <title>飞机游戏</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
 
-		<script src="js/Uitls.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/KeyControl.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/Background.js" type="text/javascript" charset="utf-8"></script>
- 		<script src="js/Player.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/Enemy.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/Director.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/Bullet.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/main.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/Grade.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/Prop.js" type="text/javascript" charset="utf-8"></script>
-	</body>
+    <script src="js/Uitls.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/KeyControl.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/Background.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/Player.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/Enemy.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/Director.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/Bullet.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/main.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/Grade.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/Prop.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            var getwidth = getQueryString('width');
+            if (getwidth !== null && getwidth > 0) {
+                $("#game_canvas").width(getwidth);
+            }
+            var getheight = getQueryString('height');
+            if (getheight !== null && getheight > 0) {
+                $("#game_canvas").height(getheight);
+            }
+        });
+
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return 0;
+        }
+
+        /***
+         * 通android交互
+         * @param width
+         * @param height
+         * @returns {string}
+         */
+        function setWidthHeight(width,height) {
+            $("#game_canvas").width(width);
+            $("#game_canvas").height(height);
+            return width+"----"+height;
+        }
+
+    </script>
+</head>
+<body>
+<div id="game">
+    <canvas id="game_canvas" width="1000" height="850"></canvas>
+</div>
+</body>
 
 </html>
