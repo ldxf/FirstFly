@@ -14,6 +14,7 @@ function Director() {
     this.multiPlayer = false;
     this.time = 0; //(因为动画设置了1秒60帧，所以time=60代表一秒)
     this.choose = 1;
+
 }
 
 /**
@@ -75,7 +76,8 @@ Director.prototype.gameLoop = function () {
                     console.log("打中了");
                     enime.exploded = true;
                     bullet.exploded = true;
-                    temp.grade.setGrade((enime.airplaneType + 1) * 1000);
+                    // temp.grade.setGrade((enime.airplaneType + 1) * 1000);
+                    temp.grade.setGrade(1000);
                 }
             }
         });
@@ -150,6 +152,13 @@ Director.prototype.drawChoose = function (choose) {
         this.ctx.fillStyle = "DarkGray";
         this.ctx.font = "16px Arial";
         this.ctx.fillText("2 players", this.width / 2, this.height / 2 + 40, 1000);
+
+        // this.ctx.moveTo(100, 100);
+        // this.ctx.lineTo(200, 100);
+        // this.ctx.lineWidth = 3;
+        // this.ctx.strokeStyle = "red";
+        // this.ctx.strokeRect(20,20,150,100);
+        // this.ctx.stroke();
     } else if (choose === 2) {
         this.ctx.fillStyle = "DarkGray";
         this.ctx.font = "16px Arial";
@@ -203,12 +212,13 @@ Director.prototype.choosePlayer = function () {
  * @param y 相对画布的y坐标
  */
 Director.prototype.setmousemove = function (x, y) {
+
     if (this.width / 2 - 30 < x && x < this.width / 2 + 30) {
-        if (this.height / 2 - 50 < y && y < this.height / 2 + 140) {
-            if (y > this.height / 2 + 40) {
-                this.choose = 2;
-            } else {
+        if (this.height / 2 - 20 < y && y < this.height / 2 + 60) {
+            if (y < this.height / 2 + 20) {
                 this.choose = 1;
+            } else {
+                this.choose = 2;
             }
         }
     }
@@ -226,7 +236,7 @@ Director.prototype.setmousemove = function (x, y) {
  */
 Director.prototype.setmousedowm = function (x, y) {
     if (this.width / 2 - 30 < x && x < this.width / 2 + 30) {
-        if (this.height / 2 - 50 < y && y < this.height / 2 + 140) {
+        if (this.height / 2 - 50 < y && y < this.height / 2 + 90) {
             this.init();
         }
     }
@@ -256,3 +266,5 @@ Director.prototype.init = function () {
     this.play();
     this.status = 1;
 };
+
+
