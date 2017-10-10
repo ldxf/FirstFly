@@ -74,10 +74,13 @@ Director.prototype.gameLoop = function () {
             if (!enime.exploded) {
                 if (IsCollided(enime, bullet)) {
                     console.log("打中了");
-                    enime.exploded = true;
+                    enime.indexblood-=1000;
+                    if(enime.indexblood<=0){
+                        enime.exploded = true;
+                        // temp.grade.setGrade((enime.airplaneType + 1) * 1000);
+                        temp.grade.setGrade(1000);
+                    }
                     bullet.exploded = true;
-                    // temp.grade.setGrade((enime.airplaneType + 1) * 1000);
-                    temp.grade.setGrade(1000);
                 }
             }
         });
@@ -152,13 +155,6 @@ Director.prototype.drawChoose = function (choose) {
         this.ctx.fillStyle = "DarkGray";
         this.ctx.font = "16px Arial";
         this.ctx.fillText("2 players", this.width / 2, this.height / 2 + 40, 1000);
-
-        // this.ctx.moveTo(100, 100);
-        // this.ctx.lineTo(200, 100);
-        // this.ctx.lineWidth = 3;
-        // this.ctx.strokeStyle = "red";
-        // this.ctx.strokeRect(20,20,150,100);
-        // this.ctx.stroke();
     } else if (choose === 2) {
         this.ctx.fillStyle = "DarkGray";
         this.ctx.font = "16px Arial";
@@ -210,6 +206,8 @@ Director.prototype.choosePlayer = function () {
  * 鼠标移动事件
  * @param x 相对画布的x坐标
  * @param y 相对画布的y坐标
+ *
+ * （去除不再使用）
  */
 Director.prototype.setmousemove = function (x, y) {
 
@@ -233,6 +231,8 @@ Director.prototype.setmousemove = function (x, y) {
  * 鼠标按下事件
  * @param x 相对画布的x坐标
  * @param y 相对画布的y坐标
+ *
+ * （去除不再使用）
  */
 Director.prototype.setmousedowm = function (x, y) {
     if (this.width / 2 - 30 < x && x < this.width / 2 + 30) {

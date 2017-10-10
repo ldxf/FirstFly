@@ -19,6 +19,8 @@ function Enemy(director) {
     this.explodeIndex = 0;
     this.airplaneType = parseInt(Math.random() * 10 % this.imgs.length);
     this.img.src = this.imgs[this.airplaneType];
+    this.indexblood=5000;
+    this.maxblood=5000;
 }
 
 Enemy.prototype.draw = function () {
@@ -39,7 +41,7 @@ Enemy.prototype.draw = function () {
          * @param lineWidth 血条粗细 (int)
          * @param strokeStyle 颜色 ("red")
          */
-        drawBlood(this.director, 3000, 5000, this.x+this.width/4, this.y, this.x+this.width/4+this.width/2, this.y, 2, 10,1,"red");
+        drawBlood(this.director, this.indexblood, this.maxblood, this.x+this.width/4, this.y, this.x+this.width/4+this.width/2, this.y, 3, 10,1,"red");
         // this.ctx.lineWidth = 1;
         // this.ctx.strokeStyle = "red";
         // this.ctx.moveTo(this.x+this.width/4, this.y-this.bloodH-this.Disblood);

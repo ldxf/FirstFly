@@ -87,6 +87,7 @@ function drawBlood(director, indexblood, maxblood, sX, sY, eX, eY, bH, bD,lineWi
     this.ctx.stroke();
     this.ctx.beginPath();
     this.ctx.lineWidth = bH;
+    this.ctx.strokeStyle = strokeStyle;
     this.ctx.moveTo(sX - bH / 2, sY - bH / 2 - bD);
     this.ctx.lineTo(sX - bH / 2 + indexblood * (eX - sX + bH) / maxblood, eY - bH / 2 - bD);
     this.ctx.stroke();
